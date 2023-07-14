@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "ADFdeProject2"
+		},
+		"ds_json_data_connectionString": {
+			"value": ""
+		},
+		"airQualityAPI_properties_typeProperties_url": {
+			"value": "https://api.waqi.info/feed"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

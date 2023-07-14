@@ -1,0 +1,310 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "ADFdeProject2"
+		},
+		"ds_json_data_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ds_json_data'"
+		},
+		"airQualityAPI_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://api.waqi.info/feed"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "extract data",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@variables('cities')",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "get api data",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "RestSource",
+											"httpRequestTimeout": "00:01:40",
+											"requestInterval": "00.00:00:00.010",
+											"requestMethod": "GET",
+											"paginationRules": {
+												"supportRFC5988": "true"
+											}
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "ds_rest_api_data",
+											"type": "DatasetReference",
+											"parameters": {
+												"URL_path": {
+													"value": "@{item()}",
+													"type": "Expression"
+												},
+												"token": "?token=240d2b420f4746e98e44655f7ceb7c2e738cd219"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "Json1",
+											"type": "DatasetReference",
+											"parameters": {
+												"city": {
+													"value": "@item()",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"cities": {
+						"type": "Array",
+						"defaultValue": [
+							"Paris",
+							"Madrid",
+							"Casablanca",
+							"Lagos",
+							"Cairo",
+							"Riyadh",
+							"Moscow",
+							"Istanbul",
+							"Athens",
+							"Berlin",
+							"London",
+							"New York",
+							"Toronto",
+							"Buenos Aires",
+							"Sao Paulo",
+							"Lima",
+							"Mexico City",
+							"Los Angeles",
+							"Sydney",
+							"Tokyo",
+							"Seoul",
+							"Beijing",
+							"Mumbai",
+							"Dubai",
+							"Cape Town",
+							"Nairobi",
+							"Lusaka",
+							"Rome",
+							"Amsterdam",
+							"Stockholm",
+							"Vienna",
+							"Prague",
+							"Zurich",
+							"Dublin",
+							"Bangkok",
+							"Singapore",
+							"Jakarta",
+							"Hanoi",
+							"New Delhi",
+							"Kuala Lumpur",
+							"Manila",
+							"Havana",
+							"Rio de Janeiro",
+							"Vancouver",
+							"Montreal",
+							"Johannesburg",
+							"Abuja",
+							"Lisbon",
+							"Budapest",
+							"Copenhagen",
+							"Warsaw",
+							"Brussels",
+							"Helsinki",
+							"Reykjavik",
+							"Kingston",
+							"San Francisco",
+							"Seattle",
+							"Chicago",
+							"Melbourne",
+							"Auckland",
+							"Wellington",
+							"Lahore",
+							"Islamabad",
+							"Karachi",
+							"Jerusalem",
+							"Tel Aviv",
+							"Amman",
+							"Baghdad",
+							"Tehran",
+							"Damascus",
+							"Nairobi",
+							"Marrakech",
+							"Cancun",
+							"Phnom Penh",
+							"Havana",
+							"Cusco",
+							"Zanzibar City",
+							"Cairo",
+							"Fez",
+							"Bogota",
+							"Quito",
+							"Santiago",
+							"Helsinki",
+							"Oslo",
+							"Copenhagen",
+							"Stockholm",
+							"Dakar",
+							"Nouakchott",
+							"Algiers",
+							"Tunis",
+							"Accra",
+							"Dakar",
+							"Antananarivo",
+							"Abuja",
+							"N'Djamena",
+							"Bamako"
+						]
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-07-13T21:13:10Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_rest_api_data')]",
+				"[concat(variables('factoryId'), '/datasets/Json1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Json1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ds_json_data",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"city": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().city",
+							"type": "Expression"
+						},
+						"container": "data"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ds_json_data')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_rest_api_data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "airQualityAPI",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"URL_path": {
+						"type": "string"
+					},
+					"token": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {
+					"relativeUrl": {
+						"value": "@concat(dataset().URL_path, dataset().token)",
+						"type": "Expression"
+					}
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/airQualityAPI')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/airQualityAPI')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('airQualityAPI_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_json_data')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('ds_json_data_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
