@@ -238,6 +238,7 @@
 							"value": "@dataset().city",
 							"type": "Expression"
 						},
+						"folderPath": "AirQuality",
 						"container": "data"
 					}
 				},
