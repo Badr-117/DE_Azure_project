@@ -11,6 +11,9 @@
 		"airQualityAPI_properties_typeProperties_url": {
 			"value": "https://api.waqi.info/feed"
 		},
+		"weatherAPI_properties_typeProperties_url": {
+			"value": "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"
+		},
 		"containerUri": {
 			"value": ""
 		},

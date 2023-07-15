@@ -15,6 +15,10 @@
 			"type": "string",
 			"defaultValue": "https://api.waqi.info/feed"
 		},
+		"weatherAPI_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -47,6 +51,9 @@
 					},
 					"airQualityAPI_properties_typeProperties_url": {
 						"value": "[parameters('airQualityAPI_properties_typeProperties_url')]"
+					},
+					"weatherAPI_properties_typeProperties_url": {
+						"value": "[parameters('weatherAPI_properties_typeProperties_url')]"
 					}
 				}
 			},

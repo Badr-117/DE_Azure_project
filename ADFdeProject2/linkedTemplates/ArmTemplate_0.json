@@ -14,6 +14,10 @@
 		"airQualityAPI_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://api.waqi.info/feed"
+		},
+		"weatherAPI_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"
 		}
 	},
 	"variables": {
@@ -44,6 +48,21 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('ds_json_data_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/weatherAPI')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('weatherAPI_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
 				}
 			},
 			"dependsOn": []
@@ -110,6 +129,64 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/airQualityAPI')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_weatherAPI')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "weatherAPI",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"location": {
+						"type": "string"
+					},
+					"date": {
+						"type": "string"
+					},
+					"apiKey": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {
+					"relativeUrl": {
+						"value": "@concat(dataset().location,dataset().date,dataset().apiKey)",
+						"type": "Expression"
+					}
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/weatherAPI')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_weatherData_json')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ds_json_data",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "weather_data",
+						"container": "data"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ds_json_data')]"
 			]
 		},
 		{
@@ -305,6 +382,196 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_rest_api_data')]",
 				"[concat(variables('factoryId'), '/datasets/Json1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "extract data 2",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@variables('cities')",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy data 2",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "RestSource",
+											"httpRequestTimeout": "00:01:40",
+											"requestInterval": "00.00:00:00.010",
+											"requestMethod": "GET",
+											"paginationRules": {
+												"supportRFC5988": "true"
+											}
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "ds_weatherAPI",
+											"type": "DatasetReference",
+											"parameters": {
+												"location": {
+													"value": "@{item()}",
+													"type": "Expression"
+												},
+												"date": "/2023-07-01/2023-07-18",
+												"apiKey": "?key=W6EB6VYPKBKX3KKJ2HZF94K2V"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "ds_weatherData_json",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"cities": {
+						"type": "Array",
+						"defaultValue": [
+							"Paris",
+							"Madrid",
+							"Casablanca",
+							"Lagos",
+							"Cairo",
+							"Riyadh",
+							"Moscow",
+							"Istanbul",
+							"Athens",
+							"Berlin",
+							"London",
+							"New York",
+							"Toronto",
+							"Buenos Aires",
+							"Sao Paulo",
+							"Lima",
+							"Mexico City",
+							"Los Angeles",
+							"Sydney",
+							"Tokyo",
+							"Seoul",
+							"Beijing",
+							"Mumbai",
+							"Dubai",
+							"Cape Town",
+							"Nairobi",
+							"Lusaka",
+							"Rome",
+							"Amsterdam",
+							"Stockholm",
+							"Vienna",
+							"Prague",
+							"Zurich",
+							"Dublin",
+							"Bangkok",
+							"Singapore",
+							"Jakarta",
+							"Hanoi",
+							"New Delhi",
+							"Kuala Lumpur",
+							"Manila",
+							"Havana",
+							"Rio de Janeiro",
+							"Vancouver",
+							"Montreal",
+							"Johannesburg",
+							"Abuja",
+							"Lisbon",
+							"Budapest",
+							"Copenhagen",
+							"Warsaw",
+							"Brussels",
+							"Helsinki",
+							"Reykjavik",
+							"Kingston",
+							"San Francisco",
+							"Seattle",
+							"Chicago",
+							"Melbourne",
+							"Auckland",
+							"Wellington",
+							"Lahore",
+							"Islamabad",
+							"Karachi",
+							"Jerusalem",
+							"Tel Aviv",
+							"Amman",
+							"Baghdad",
+							"Tehran",
+							"Damascus",
+							"Nairobi",
+							"Marrakech",
+							"Cancun",
+							"Phnom Penh",
+							"Havana",
+							"Cusco",
+							"Zanzibar City",
+							"Cairo",
+							"Fez",
+							"Bogota",
+							"Quito",
+							"Santiago",
+							"Helsinki",
+							"Oslo",
+							"Copenhagen",
+							"Stockholm",
+							"Dakar",
+							"Nouakchott",
+							"Algiers",
+							"Tunis",
+							"Accra",
+							"Dakar",
+							"Antananarivo",
+							"Abuja",
+							"N'Djamena",
+							"Bamako"
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_weatherAPI')]",
+				"[concat(variables('factoryId'), '/datasets/ds_weatherData_json')]"
 			]
 		}
 	]
