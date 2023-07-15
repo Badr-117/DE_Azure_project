@@ -278,7 +278,7 @@
 													"value": "@{item()}",
 													"type": "Expression"
 												},
-												"date": "/2023-07-01/2023-07-18",
+												"date": "/2023-07-13/2023-07-16",
 												"apiKey": "?key=W6EB6VYPKBKX3KKJ2HZF94K2V"
 											}
 										}
@@ -287,7 +287,12 @@
 										{
 											"referenceName": "ds_weatherData_json",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"city": {
+													"value": "@{item()}",
+													"type": "Expression"
+												}
+											}
 										}
 									]
 								}
@@ -516,11 +521,20 @@
 					"referenceName": "ds_json_data",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"city": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "Json",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().city",
+							"type": "Expression"
+						},
 						"folderPath": "weather_data",
 						"container": "data"
 					}
