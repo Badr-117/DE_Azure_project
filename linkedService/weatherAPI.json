@@ -1,0 +1,12 @@
+{
+	"name": "weatherAPI",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
