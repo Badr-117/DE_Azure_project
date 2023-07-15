@@ -1,0 +1,29 @@
+{
+	"name": "ds_weatherAPI",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "weatherAPI",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"location": {
+				"type": "string"
+			},
+			"date": {
+				"type": "string"
+			},
+			"apiKey": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "@concat(dataset().location,dataset().date,dataset().apiKey)",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	}
+}

@@ -1,0 +1,19 @@
+{
+	"name": "ds_weatherData_json",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ds_json_data",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "weather_data",
+				"container": "data"
+			}
+		},
+		"schema": {}
+	}
+}
