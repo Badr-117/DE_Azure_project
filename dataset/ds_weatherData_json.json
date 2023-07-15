@@ -5,11 +5,20 @@
 			"referenceName": "ds_json_data",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"city": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().city",
+					"type": "Expression"
+				},
 				"folderPath": "weather_data",
 				"container": "data"
 			}
