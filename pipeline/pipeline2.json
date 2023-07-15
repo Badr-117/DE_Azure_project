@@ -63,7 +63,13 @@
 							"outputs": [
 								{
 									"referenceName": "ds_weatherData_json",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"city": {
+											"value": "@{item()}",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
