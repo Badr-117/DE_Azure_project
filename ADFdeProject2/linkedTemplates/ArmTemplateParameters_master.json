@@ -8,8 +8,14 @@
 		"ds_json_data_connectionString": {
 			"value": ""
 		},
+		"ls_adls_gen2_accountKey": {
+			"value": ""
+		},
 		"airQualityAPI_properties_typeProperties_url": {
 			"value": "https://api.waqi.info/feed"
+		},
+		"ls_adls_gen2_properties_typeProperties_url": {
+			"value": "https://deprojectsagen2.dfs.core.windows.net/"
 		},
 		"weatherAPI_properties_typeProperties_url": {
 			"value": "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"

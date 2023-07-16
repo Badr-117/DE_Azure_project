@@ -11,9 +11,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ds_json_data'"
 		},
+		"ls_adls_gen2_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_adls_gen2'"
+		},
 		"airQualityAPI_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://api.waqi.info/feed"
+		},
+		"ls_adls_gen2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://deprojectsagen2.dfs.core.windows.net/"
 		},
 		"weatherAPI_properties_typeProperties_url": {
 			"type": "string",
@@ -317,6 +325,34 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_processes_weather_data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls_gen2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "weather",
+						"fileSystem": "data"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls_gen2')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_rest_api_data')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -446,6 +482,23 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ls_adls_gen2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ls_adls_gen2_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('ls_adls_gen2_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/weatherAPI')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -459,6 +512,152 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/weather_data_df')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_weatherData_json",
+								"type": "DatasetReference"
+							},
+							"name": "weatherDataRaw"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_processes_weather_data",
+								"type": "DatasetReference"
+							},
+							"name": "processedWeatherData"
+						}
+					],
+					"transformations": [
+						{
+							"name": "extractColumns"
+						},
+						{
+							"name": "select1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          address as string,",
+						"          alerts as string[],",
+						"          currentConditions as (cloudcover as double, conditions as string, datetime as string, datetimeEpoch as integer, dew as double, feelslike as double, humidity as double, icon as string, moonphase as double, precip as double, precipprob as double, preciptype as string, pressure as double, snow as double, snowdepth as double, solarenergy as double, solarradiation as double, source as string, stations as string[], sunrise as string, sunriseEpoch as integer, sunset as string, sunsetEpoch as integer, temp as double, uvindex as double, visibility as double, winddir as double, windgust as string, windspeed as double),",
+						"          days as (cloudcover as double, conditions as string, datetime as date, datetimeEpoch as integer, description as string, dew as double, feelslike as double, feelslikemax as double, feelslikemin as double, hours as (cloudcover as double, conditions as string, datetime as string, datetimeEpoch as integer, dew as double, feelslike as double, humidity as double, icon as string, precip as double, precipprob as double, preciptype as string, pressure as double, severerisk as double, snow as double, snowdepth as double, solarenergy as double, solarradiation as double, source as string, stations as string[], temp as double, uvindex as double, visibility as double, winddir as double, windgust as double, windspeed as double)[], humidity as double, icon as string, moonphase as double, precip as double, precipcover as double, precipprob as double, preciptype as string, pressure as double, severerisk as double, snow as double, snowdepth as double, solarenergy as double, solarradiation as double, source as string, stations as string[], sunrise as string, sunriseEpoch as integer, sunset as string, sunsetEpoch as integer, temp as double, tempmax as double, tempmin as double, uvindex as double, visibility as double, winddir as double, windgust as double, windspeed as double)[],",
+						"          description as string,",
+						"          latitude as double,",
+						"          longitude as double,",
+						"          queryCost as boolean,",
+						"          resolvedAddress as string,",
+						"          stations as (C0449 as (contribution as double, distance as double, id as string, latitude as double, longitude as double, name as string, quality as boolean, useCount as boolean), D3248 as (contribution as double, distance as double, id as string, latitude as double, longitude as double, name as string, quality as boolean, useCount as boolean), EHAM as (contribution as double, distance as double, id as string, latitude as double, longitude as double, name as string, quality as short, useCount as boolean), EHKD as (contribution as double, distance as double, id as string, latitude as double, longitude as double, name as string, quality as short, useCount as boolean), EHLE as (contribution as double, distance as double, id as string, latitude as double, longitude as double, name as string, quality as short, useCount as boolean), EHRD as (contribution as double, distance as double, id as string, latitude as double, longitude as double, name as string, quality as short, useCount as boolean)),",
+						"          timezone as string,",
+						"          tzoffset as double",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'documentPerLine') ~> weatherDataRaw",
+						"weatherDataRaw derive(datetime = days.datetime,",
+						"          datetimeEpoch = days.datetimeEpoch,",
+						"          tempmax = days.tempmax,",
+						"          tempmin = days.tempmin,",
+						"          temp = days.temp,",
+						"          feelslikemax = days.feelslikemax,",
+						"          feelslikemin = days.feelslikemin,",
+						"          feelslike = days.feelslike,",
+						"          humidity = days.humidity,",
+						"          dew = days.dew,",
+						"          precip = days.precip,",
+						"          precipprob = days.precipprob,",
+						"          snow = days.snow,",
+						"          snowdepth = days.snowdepth,",
+						"          preciptype = days.preciptype,",
+						"          precipcover = days.precipcover,",
+						"          windgust = days.windgust,",
+						"          windspeed = days.windspeed,",
+						"          winddir = days.winddir,",
+						"          pressure = days.pressure,",
+						"          visibility = days.visibility,",
+						"          cloudcover = days.cloudcover,",
+						"          solarradiation = days.solarradiation,",
+						"          solarenergy = days.solarenergy,",
+						"          uvindex = days.uvindex,",
+						"          conditions = days.conditions,",
+						"          icon = days.icon,",
+						"          stations = days.stations,",
+						"          source = days.source,",
+						"          sunrise = days.sunrise,",
+						"          sunriseEpoch = days.sunriseEpoch,",
+						"          sunset = days.sunset,",
+						"          sunsetEpoch = days.sunriseEpoch,",
+						"          moonphase = days.moonphase) ~> extractColumns",
+						"extractColumns select(mapColumn(",
+						"          address,",
+						"          description,",
+						"          latitude,",
+						"          longitude,",
+						"          resolvedAddress,",
+						"          stations,",
+						"          timezone,",
+						"          tzoffset,",
+						"          datetime,",
+						"          datetimeEpoch,",
+						"          tempmax,",
+						"          tempmin,",
+						"          temp,",
+						"          feelslikemax,",
+						"          feelslikemin,",
+						"          feelslike,",
+						"          humidity,",
+						"          dew,",
+						"          precip,",
+						"          precipprob,",
+						"          snow,",
+						"          snowdepth,",
+						"          preciptype,",
+						"          precipcover,",
+						"          windgust,",
+						"          windspeed,",
+						"          winddir,",
+						"          pressure,",
+						"          visibility,",
+						"          cloudcover,",
+						"          solarradiation,",
+						"          solarenergy,",
+						"          uvindex,",
+						"          conditions,",
+						"          icon,",
+						"          source,",
+						"          sunrise,",
+						"          sunriseEpoch,",
+						"          sunset,",
+						"          sunsetEpoch,",
+						"          moonphase",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> processedWeatherData"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_weatherData_json')]",
+				"[concat(variables('factoryId'), '/datasets/ds_processes_weather_data')]"
+			]
 		}
 	]
 }
