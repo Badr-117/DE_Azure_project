@@ -16,7 +16,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": {
-					"value": "@dataset().city",
+					"value": "@concat('AQ_', dataset().city, '.json')",
 					"type": "Expression"
 				},
 				"folderPath": "AirQuality",
