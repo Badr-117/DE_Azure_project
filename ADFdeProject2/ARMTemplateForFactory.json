@@ -439,10 +439,14 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@{item()}",
+							"type": "Expression"
+						},
 						"folderPath": "weather/raw",
 						"fileSystem": "data"
 					},
-					"columnDelimiter": ",",
+					"columnDelimiter": ";",
 					"escapeChar": "\\",
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
