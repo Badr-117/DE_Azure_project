@@ -139,7 +139,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "weather",
+						"folderPath": "weather/raw",
 						"fileSystem": "data"
 					},
 					"columnDelimiter": ",",
@@ -657,6 +657,107 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_weatherData_json')]",
 				"[concat(variables('factoryId'), '/datasets/ds_processes_weather_data')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/data processing pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@variables('cities')",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Data flow1_copy1",
+									"type": "ExecuteDataFlow",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataflow": {
+											"referenceName": "weather_data_df",
+											"type": "DataFlowReference",
+											"parameters": {},
+											"datasetParameters": {
+												"weatherDataRaw": {
+													"city": "@{item()}",
+													"file_type": ".json"
+												},
+												"processedWeatherData": {}
+											}
+										},
+										"staging": {},
+										"compute": {
+											"coreCount": 8,
+											"computeType": "General"
+										},
+										"traceLevel": "Fine"
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"cities": {
+						"type": "Array",
+						"defaultValue": [
+							"Toronto",
+							"Vancouver",
+							"Montreal",
+							"Ottawa",
+							"Calgary",
+							"Edmonton",
+							"Quebec City",
+							"Halifax",
+							"Winnipeg",
+							"Victoria",
+							"Seattle",
+							"New York",
+							"Los Angeles",
+							"Chicago",
+							"San Francisco",
+							"Miami",
+							"Las Vegas",
+							"Boston",
+							"London",
+							"Paris",
+							"Berlin",
+							"Madrid",
+							"Rome",
+							"Amsterdam",
+							"Vienna",
+							"Prague",
+							"Dublin",
+							"Barcelona",
+							"Stockholm",
+							"Copenhagen"
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/weather_data_df')]"
 			]
 		}
 	]
