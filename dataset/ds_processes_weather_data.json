@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "weather",
+				"folderPath": "weather/raw",
 				"fileSystem": "data"
 			},
 			"columnDelimiter": ",",
