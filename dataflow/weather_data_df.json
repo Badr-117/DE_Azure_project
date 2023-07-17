@@ -129,11 +129,13 @@
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     partitionFileNames:['weather_data'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> processedWeatherData"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> processedWeatherData"
 			]
 		}
 	}
