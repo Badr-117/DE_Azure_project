@@ -255,6 +255,199 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_weather_merged_data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls_gen2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "weather/raw",
+						"fileSystem": "data"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "address",
+						"type": "String"
+					},
+					{
+						"name": "description",
+						"type": "String"
+					},
+					{
+						"name": "latitude",
+						"type": "String"
+					},
+					{
+						"name": "longitude",
+						"type": "String"
+					},
+					{
+						"name": "resolvedAddress",
+						"type": "String"
+					},
+					{
+						"name": "stations",
+						"type": "String"
+					},
+					{
+						"name": "timezone",
+						"type": "String"
+					},
+					{
+						"name": "tzoffset",
+						"type": "String"
+					},
+					{
+						"name": "datetime",
+						"type": "String"
+					},
+					{
+						"name": "datetimeEpoch",
+						"type": "String"
+					},
+					{
+						"name": "tempmax",
+						"type": "String"
+					},
+					{
+						"name": "tempmin",
+						"type": "String"
+					},
+					{
+						"name": "temp",
+						"type": "String"
+					},
+					{
+						"name": "feelslikemax",
+						"type": "String"
+					},
+					{
+						"name": "feelslikemin",
+						"type": "String"
+					},
+					{
+						"name": "feelslike",
+						"type": "String"
+					},
+					{
+						"name": "humidity",
+						"type": "String"
+					},
+					{
+						"name": "dew",
+						"type": "String"
+					},
+					{
+						"name": "precip",
+						"type": "String"
+					},
+					{
+						"name": "precipprob",
+						"type": "String"
+					},
+					{
+						"name": "snow",
+						"type": "String"
+					},
+					{
+						"name": "snowdepth",
+						"type": "String"
+					},
+					{
+						"name": "preciptype",
+						"type": "String"
+					},
+					{
+						"name": "precipcover",
+						"type": "String"
+					},
+					{
+						"name": "windgust",
+						"type": "String"
+					},
+					{
+						"name": "windspeed",
+						"type": "String"
+					},
+					{
+						"name": "winddir",
+						"type": "String"
+					},
+					{
+						"name": "pressure",
+						"type": "String"
+					},
+					{
+						"name": "visibility",
+						"type": "String"
+					},
+					{
+						"name": "cloudcover",
+						"type": "String"
+					},
+					{
+						"name": "solarradiation",
+						"type": "String"
+					},
+					{
+						"name": "solarenergy",
+						"type": "String"
+					},
+					{
+						"name": "uvindex",
+						"type": "String"
+					},
+					{
+						"name": "conditions",
+						"type": "String"
+					},
+					{
+						"name": "icon",
+						"type": "String"
+					},
+					{
+						"name": "source",
+						"type": "String"
+					},
+					{
+						"name": "sunrise",
+						"type": "String"
+					},
+					{
+						"name": "sunriseEpoch",
+						"type": "String"
+					},
+					{
+						"name": "sunset",
+						"type": "String"
+					},
+					{
+						"name": "sunsetEpoch",
+						"type": "String"
+					},
+					{
+						"name": "moonphase",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls_gen2')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
