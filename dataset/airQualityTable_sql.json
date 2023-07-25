@@ -1,0 +1,109 @@
+{
+	"name": "airQualityTable_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_SQL_database",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "idx",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "name",
+				"type": "varchar"
+			},
+			{
+				"name": "url",
+				"type": "varchar"
+			},
+			{
+				"name": "aqi",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "dominentpol",
+				"type": "varchar"
+			},
+			{
+				"name": "tz",
+				"type": "time",
+				"scale": 7
+			},
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "co",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "dew",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "h",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "no2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "o3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "p",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "pm10",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "nopm252",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "so2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "t",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "w",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "wg",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "airQuality"
+		}
+	}
+}
