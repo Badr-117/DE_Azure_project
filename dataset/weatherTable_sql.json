@@ -1,0 +1,206 @@
+{
+	"name": "weatherTable_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_SQL_database",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "latitude",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "longitude",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "resolvedAddress",
+				"type": "varchar"
+			},
+			{
+				"name": "address",
+				"type": "varchar"
+			},
+			{
+				"name": "timezone",
+				"type": "varchar"
+			},
+			{
+				"name": "cloudcover",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "conditions",
+				"type": "varchar"
+			},
+			{
+				"name": "datetime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "datetimeEpoch",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "description",
+				"type": "varchar"
+			},
+			{
+				"name": "dew",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "feelslike",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "feelslikemax",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "feelslikemin",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "humidity",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "icon",
+				"type": "varchar"
+			},
+			{
+				"name": "moonphase",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "precip",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "precipcover",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "precipprob",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "pressure",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "severerisk",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "snow",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "snowdepth",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "solarenergy",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "solarradiation",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "source",
+				"type": "varchar"
+			},
+			{
+				"name": "sunrise",
+				"type": "time",
+				"scale": 7
+			},
+			{
+				"name": "sunriseEpoch",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "sunset",
+				"type": "time",
+				"scale": 7
+			},
+			{
+				"name": "sunsetEpoch",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "temp",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "tempmax",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "tempmin",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "uvindex",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "visibility",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "winddir",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "windgust",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "windspeed",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "weather"
+		}
+	}
+}
