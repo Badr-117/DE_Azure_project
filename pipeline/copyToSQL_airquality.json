@@ -1,5 +1,5 @@
 {
-	"name": "copyToSQL",
+	"name": "copyToSQL_airquality",
 	"properties": {
 		"activities": [
 			{
