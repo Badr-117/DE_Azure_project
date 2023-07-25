@@ -1,52 +1,6 @@
 {
 	"name": "data processing pipeline",
 	"properties": {
-		"activities": [
-			{
-				"name": "ForEach1",
-				"type": "ForEach",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@variables('cities')",
-						"type": "Expression"
-					},
-					"activities": [
-						{
-							"name": "Data flow1_copy1",
-							"type": "ExecuteDataFlow",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"dataflow": {
-									"referenceName": "weather_data_df",
-									"type": "DataFlowReference",
-									"datasetParameters": {
-										"weatherDataRaw": {
-											"city": "@{item()}",
-											"file_type": ".json"
-										}
-									}
-								},
-								"compute": {
-									"coreCount": 8,
-									"computeType": "General"
-								},
-								"traceLevel": "Fine"
-							}
-						}
-					]
-				}
-			}
-		],
 		"variables": {
 			"cities": {
 				"type": "Array",
