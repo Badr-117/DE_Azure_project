@@ -1,0 +1,36 @@
+{
+	"name": "pollutionSourcesTable_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_SQL_database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SQL_tables"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "source_name",
+				"type": "varchar"
+			},
+			{
+				"name": "source_type",
+				"type": "varchar"
+			},
+			{
+				"name": "emission_type",
+				"type": "varchar"
+			},
+			{
+				"name": "location",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "pollutionSources"
+		}
+	}
+}
