@@ -61,7 +61,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "Json1",
+									"referenceName": "ds_airQualityData_json",
 									"type": "DatasetReference",
 									"parameters": {
 										"city": {

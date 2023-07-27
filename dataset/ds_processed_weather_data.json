@@ -5,6 +5,9 @@
 			"referenceName": "ls_adls_gen2",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "processed_csv"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {

@@ -1,5 +1,5 @@
 {
-	"name": "Json1",
+	"name": "ds_airQualityData_json",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ds_json_data",
@@ -9,6 +9,9 @@
 			"city": {
 				"type": "string"
 			}
+		},
+		"folder": {
+			"name": "json"
 		},
 		"annotations": [],
 		"type": "Json",
