@@ -1,0 +1,81 @@
+{
+	"name": "extract_AQ",
+	"properties": {
+		"activities": [
+			{
+				"name": "extract data",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('cities')",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "get api data",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "RestSource",
+									"httpRequestTimeout": "00:01:40",
+									"requestInterval": "00.00:00:00.010",
+									"requestMethod": "GET",
+									"paginationRules": {
+										"supportRFC5988": "true"
+									}
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_rest_api_data",
+									"type": "DatasetReference",
+									"parameters": {
+										"URL_path": {
+											"value": "@{item()}",
+											"type": "Expression"
+										},
+										"token": "?token=240d2b420f4746e98e44655f7ceb7c2e738cd219"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_airQualityData_json",
+									"type": "DatasetReference",
+									"parameters": {
+										"city": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"annotations": []
+	}
+}
