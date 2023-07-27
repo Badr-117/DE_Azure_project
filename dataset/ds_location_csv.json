@@ -1,0 +1,32 @@
+{
+	"name": "ds_location_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "processed_csv"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "location_data.csv",
+				"folderPath": "location",
+				"fileSystem": "data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "{\\rtf1\\ansi\\ansicpg1252\\cocoartf2638",
+				"type": "String"
+			}
+		]
+	}
+}
