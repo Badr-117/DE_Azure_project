@@ -1,0 +1,46 @@
+{
+	"name": "locationTable_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_SQL_database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SQL_tables"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "City",
+				"type": "varchar"
+			},
+			{
+				"name": "State",
+				"type": "varchar"
+			},
+			{
+				"name": "Country",
+				"type": "varchar"
+			},
+			{
+				"name": "Zip Code",
+				"type": "varchar"
+			},
+			{
+				"name": "Latitude",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Longitude",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "location"
+		}
+	}
+}
