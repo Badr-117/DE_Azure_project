@@ -108,5 +108,6 @@
 			"schema": "dbo",
 			"table": "airQuality"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

@@ -1,9 +1,9 @@
 {
-	"name": "copyToSQL_weather",
+	"name": "copyToSQL",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy weather Data",
+				"name": "Copy data1_copy1",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -29,8 +29,7 @@
 					"sink": {
 						"type": "AzureSqlSink",
 						"writeBehavior": "insert",
-						"sqlWriterUseTableLock": false,
-						"disableMetricsCollection": false
+						"sqlWriterUseTableLock": false
 					},
 					"enableStaging": false,
 					"translator": {
@@ -44,20 +43,20 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_processed_weather_data",
+						"referenceName": "ds_processed_airQuality_csv",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "weatherTable_sql",
+						"referenceName": "airQualityTable_sql",
 						"type": "DatasetReference"
 					}
 				]
 			}
 		],
 		"annotations": [],
-		"lastPublishTime": "2023-07-27T21:21:24Z"
+		"lastPublishTime": "2023-07-25T19:45:06Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }
