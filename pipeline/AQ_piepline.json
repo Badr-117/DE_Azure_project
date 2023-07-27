@@ -48,7 +48,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_rest_api_data",
+									"referenceName": "ds_airQuality_api_data",
 									"type": "DatasetReference",
 									"parameters": {
 										"URL_path": {

@@ -1,5 +1,5 @@
 {
-	"name": "ds_rest_api_data",
+	"name": "ds_airQuality_api_data",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "airQualityAPI",
