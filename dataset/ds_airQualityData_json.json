@@ -22,7 +22,7 @@
 					"value": "@concat('AQ_', dataset().city, '.json')",
 					"type": "Expression"
 				},
-				"folderPath": "AirQuality/@formatDateTime(utcnow())",
+				"folderPath": "AirQuality/2023-07-27",
 				"container": "data"
 			}
 		},
