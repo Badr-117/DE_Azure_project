@@ -23,7 +23,7 @@
 					"type": "Expression"
 				},
 				"folderPath": {
-					"value": "@concat('AirQuality', '/', formatDateTime(utcnow()))",
+					"value": "@concat('AirQuality', '/', formatDateTime(utcnow(), 'yyyy_MM_dd'))",
 					"type": "Expression"
 				},
 				"container": "data"
