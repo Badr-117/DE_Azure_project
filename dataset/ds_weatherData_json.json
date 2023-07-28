@@ -25,7 +25,7 @@
 					"value": "@concat(dataset().city, dataset().file_type)",
 					"type": "Expression"
 				},
-				"folderPath": "weather_data",
+				"folderPath": "@concat('weather_data', '/', formatDateTime(utcnow(), 'yyyy_MM_dd'))",
 				"container": "data"
 			}
 		},
