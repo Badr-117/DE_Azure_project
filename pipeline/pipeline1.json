@@ -84,7 +84,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"FileName": {
-								"value": "@activity('Get files list').output.childItems[-1]",
+								"value": "@activity('Get files list').output.childItems[3]",
 								"type": "Expression"
 							}
 						}
