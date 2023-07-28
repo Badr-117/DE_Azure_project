@@ -76,6 +76,17 @@
 				}
 			}
 		],
+		"variables": {
+			"cities": {
+				"type": "Array",
+				"defaultValue": [
+					"Toronto",
+					"Vancouver",
+					"Montreal",
+					"Ottawa"
+				]
+			}
+		},
 		"annotations": []
 	}
 }
