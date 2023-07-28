@@ -1,0 +1,86 @@
+{
+	"name": "extract_weather",
+	"properties": {
+		"activities": [
+			{
+				"name": "extract api data",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('cities')",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy api data",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "RestSource",
+									"httpRequestTimeout": "00:01:40",
+									"requestInterval": "00.00:00:00.010",
+									"requestMethod": "GET",
+									"paginationRules": {
+										"supportRFC5988": "true"
+									}
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_weatherAPI",
+									"type": "DatasetReference",
+									"parameters": {
+										"location": {
+											"value": "@{item()}",
+											"type": "Expression"
+										},
+										"date": {
+											"value": "@concat('/',formatDateTime(utcnow(), 'yyyy-MM-dd'), '/', formatDateTime(utcnow(), 'yyyy-MM-dd'))",
+											"type": "Expression"
+										},
+										"apiKey": "?unitGroup=metric&key=W6EB6VYPKBKX3KKJ2HZF94K2V&contentType=json"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_weatherData_json",
+									"type": "DatasetReference",
+									"parameters": {
+										"city": {
+											"value": "@{item()}",
+											"type": "Expression"
+										},
+										"file_type": ".json"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"annotations": []
+	}
+}
