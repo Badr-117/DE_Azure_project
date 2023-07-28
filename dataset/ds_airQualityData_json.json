@@ -19,10 +19,10 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": {
-					"value": "@concat('AQ_', dataset().city, '.json')",
+					"value": "@concat('AQ_', dataset().city)",
 					"type": "Expression"
 				},
-				"folderPath": "AirQuality/2023-07-27",
+				"folderPath": "AirQuality/@formatDateTime(utcnow())",
 				"container": "data"
 			}
 		},
