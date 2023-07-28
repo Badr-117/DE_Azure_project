@@ -22,7 +22,10 @@
 					"value": "@concat('AQ_', dataset().city)",
 					"type": "Expression"
 				},
-				"folderPath": "AirQuality/@formatDateTime(utcnow())",
+				"folderPath": {
+					"value": "@concat('AirQuality', '/', formatDateTime(utcnow()))",
+					"type": "Expression"
+				},
 				"container": "data"
 			}
 		},
