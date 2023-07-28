@@ -1,9 +1,9 @@
 {
-	"name": "pipeline2",
+	"name": "weather_pipeline",
 	"properties": {
 		"activities": [
 			{
-				"name": "extract data 2",
+				"name": "extract api data",
 				"type": "ForEach",
 				"dependsOn": [],
 				"userProperties": [],
@@ -14,7 +14,7 @@
 					},
 					"activities": [
 						{
-							"name": "Copy data 2",
+							"name": "Copy api data",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
