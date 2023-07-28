@@ -55,7 +55,10 @@
 											"value": "@{item()}",
 											"type": "Expression"
 										},
-										"date": "/2023-07-16/2023-07-16",
+										"date": {
+											"value": "@concat('/',formatDateTime(utcnow(), 'yyyy-MM-dd'), '/', formatDateTime(utcnow(), 'yyyy-MM-dd'))",
+											"type": "Expression"
+										},
 										"apiKey": "?unitGroup=metric&key=W6EB6VYPKBKX3KKJ2HZF94K2V&contentType=json"
 									}
 								}
