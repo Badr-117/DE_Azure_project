@@ -13,8 +13,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "part-00000-tid-3034906012444110721-d421a589-eb55-4b1d-8fb1-58a4c14feab7-559-1-c000.csv",
-				"folderPath": "weather/merged/processed_weather",
+				"folderPath": {
+					"value": "@concat('weather/', formatDateTime(utcnow(), 'yyyy_MM_dd'))",
+					"type": "Expression"
+				},
 				"fileSystem": "data"
 			},
 			"columnDelimiter": ",",
