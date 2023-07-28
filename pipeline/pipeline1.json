@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "ds_processed_weather_data",
+						"referenceName": "get_metadata",
 						"type": "DatasetReference"
 					},
 					"fieldList": [
