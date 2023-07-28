@@ -76,6 +76,33 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "weather processing",
+							"type": "DatabricksNotebook",
+							"dependsOn": [
+								{
+									"activity": "Copy api data",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/ibrahimi-badr@hotmail.com/weather data processing"
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_AzureDatabricks",
+								"type": "LinkedServiceReference"
+							}
 						}
 					]
 				}
