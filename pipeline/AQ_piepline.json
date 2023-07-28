@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "extract data",
+				"name": "extract api data",
 				"type": "ForEach",
 				"dependsOn": [],
 				"userProperties": [],
@@ -80,7 +80,7 @@
 				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
-						"activity": "extract data",
+						"activity": "extract api data",
 						"dependencyConditions": [
 							"Succeeded"
 						]
