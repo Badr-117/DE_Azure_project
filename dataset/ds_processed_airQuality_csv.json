@@ -5,6 +5,11 @@
 			"referenceName": "ls_adls_gen2",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"FileName": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "processed_csv"
 		},
@@ -13,8 +18,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "part-00000-tid-5713240549692818998-20fad481-e569-4e63-ba79-9ada01e647d1-3680-1-c000.csv",
-				"folderPath": "AirQuality/merged/processed_AirQuality",
+				"folderPath": {
+					"value": "@concat('AirQuality/', formatDateTime(utcnow(), 'yyyy_MM_dd'))",
+					"type": "Expression"
+				},
 				"fileSystem": "data"
 			},
 			"columnDelimiter": ",",
