@@ -10,7 +10,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "weather/2023_07_28",
+				"folderPath": {
+					"value": "@concat('weather/', formatDateTime(utcnow(), 'yyyy_MM_dd'))",
+					"type": "Expression"
+				},
 				"fileSystem": "data"
 			},
 			"columnDelimiter": ",",
