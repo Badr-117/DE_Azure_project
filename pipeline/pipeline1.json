@@ -24,6 +24,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -84,7 +85,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"FileName": {
-								"value": "@activity('Get files list').output.childItems[3]",
+								"value": "@activity('Get files list').output.childItems[3].name",
 								"type": "Expression"
 							}
 						}
