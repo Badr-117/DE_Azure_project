@@ -81,7 +81,7 @@
 				}
 			},
 			{
-				"name": "weather processing_copy1",
+				"name": "weather processing",
 				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
@@ -108,11 +108,48 @@
 				}
 			},
 			{
-				"name": "Copy weather Data",
+				"name": "Get files list",
+				"type": "GetMetadata",
+				"dependsOn": [
+					{
+						"activity": "weather processing",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "get_metadata",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "Copy to sql",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "weather processing_copy1",
+						"activity": "Get files list",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -157,7 +194,13 @@
 				"inputs": [
 					{
 						"referenceName": "ds_processed_weather_data",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"FileName": {
+								"value": "@activity('Get files list').output.childItems[3].name",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
