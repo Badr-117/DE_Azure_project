@@ -1,0 +1,112 @@
+{
+	"name": "get_AQ_metadata",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"fileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@concat('AirQuality/', formatDateTime(utcnow(), 'yyyy_MM_dd'))",
+					"type": "Expression"
+				},
+				"fileSystem": "data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "idx",
+				"type": "String"
+			},
+			{
+				"name": "name",
+				"type": "String"
+			},
+			{
+				"name": "url",
+				"type": "String"
+			},
+			{
+				"name": "aqi",
+				"type": "String"
+			},
+			{
+				"name": "dominentpol",
+				"type": "String"
+			},
+			{
+				"name": "s",
+				"type": "String"
+			},
+			{
+				"name": "tz",
+				"type": "String"
+			},
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "co",
+				"type": "String"
+			},
+			{
+				"name": "dew",
+				"type": "String"
+			},
+			{
+				"name": "h",
+				"type": "String"
+			},
+			{
+				"name": "no2",
+				"type": "String"
+			},
+			{
+				"name": "o3",
+				"type": "String"
+			},
+			{
+				"name": "p",
+				"type": "String"
+			},
+			{
+				"name": "pm10",
+				"type": "String"
+			},
+			{
+				"name": "pm25",
+				"type": "String"
+			},
+			{
+				"name": "so2",
+				"type": "String"
+			},
+			{
+				"name": "t",
+				"type": "String"
+			},
+			{
+				"name": "w",
+				"type": "String"
+			},
+			{
+				"name": "wg",
+				"type": "String"
+			}
+		]
+	}
+}
