@@ -128,7 +128,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "get_metadata",
+						"referenceName": "get_weather_metadata",
 						"type": "DatasetReference"
 					},
 					"fieldList": [
