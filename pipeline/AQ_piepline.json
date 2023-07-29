@@ -76,7 +76,7 @@
 				}
 			},
 			{
-				"name": "Notebook1",
+				"name": "AQ data processing",
 				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
@@ -107,7 +107,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Notebook1",
+						"activity": "Get File list",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -151,7 +151,10 @@
 				"inputs": [
 					{
 						"referenceName": "ds_processed_airQuality_csv",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"FileName": "@activity('Get File list').output.childItems[3].name"
+						}
 					}
 				],
 				"outputs": [
@@ -160,6 +163,42 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Get File list",
+				"type": "GetMetadata",
+				"dependsOn": [
+					{
+						"activity": "AQ data processing",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "get_AQ_metadata",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
 			}
 		],
 		"variables": {
@@ -167,35 +206,7 @@
 				"type": "Array",
 				"defaultValue": [
 					"Toronto",
-					"Vancouver",
-					"Montreal",
-					"Ottawa",
-					"Calgary",
-					"Edmonton",
-					"Quebec City",
-					"Halifax",
-					"Winnipeg",
-					"Victoria",
-					"Seattle",
-					"New York",
-					"Los Angeles",
-					"Chicago",
-					"San Francisco",
-					"Miami",
-					"Las Vegas",
-					"Boston",
-					"London",
-					"Paris",
-					"Berlin",
-					"Madrid",
-					"Rome",
-					"Amsterdam",
-					"Vienna",
-					"Prague",
-					"Dublin",
-					"Barcelona",
-					"Stockholm",
-					"Copenhagen"
+					"Vancouver"
 				]
 			}
 		},
