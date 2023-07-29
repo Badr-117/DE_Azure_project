@@ -1,0 +1,953 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "deProject2adf"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/pollutionSourcesTable_sql')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_SQL_database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "SQL_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "source_name",
+						"type": "varchar"
+					},
+					{
+						"name": "source_type",
+						"type": "varchar"
+					},
+					{
+						"name": "emission_type",
+						"type": "varchar"
+					},
+					{
+						"name": "location",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "pollutionSources"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/weatherTable_sql')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_SQL_database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "SQL_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "latitude",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "longitude",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "resolvedAddress",
+						"type": "varchar"
+					},
+					{
+						"name": "address",
+						"type": "varchar"
+					},
+					{
+						"name": "timezone",
+						"type": "varchar"
+					},
+					{
+						"name": "cloudcover",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "conditions",
+						"type": "varchar"
+					},
+					{
+						"name": "datetime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "datetimeEpoch",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "description",
+						"type": "varchar"
+					},
+					{
+						"name": "dew",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "feelslike",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "feelslikemax",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "feelslikemin",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "humidity",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "icon",
+						"type": "varchar"
+					},
+					{
+						"name": "moonphase",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "precip",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "precipcover",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "precipprob",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "pressure",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "severerisk",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "snow",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "snowdepth",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "solarenergy",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "solarradiation",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "source",
+						"type": "varchar"
+					},
+					{
+						"name": "sunrise",
+						"type": "time",
+						"scale": 7
+					},
+					{
+						"name": "sunriseEpoch",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "sunset",
+						"type": "time",
+						"scale": 7
+					},
+					{
+						"name": "sunsetEpoch",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "temp",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "tempmax",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "tempmin",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "uvindex",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "visibility",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "winddir",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "windgust",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "windspeed",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "weather"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AQ_piepline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "extract api data",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@variables('cities')",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "get api data",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "RestSource",
+											"httpRequestTimeout": "00:01:40",
+											"requestInterval": "00.00:00:00.010",
+											"requestMethod": "GET",
+											"paginationRules": {
+												"supportRFC5988": "true"
+											}
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "ds_airQuality_api_data",
+											"type": "DatasetReference",
+											"parameters": {
+												"URL_path": {
+													"value": "@{item()}",
+													"type": "Expression"
+												},
+												"token": "?token=240d2b420f4746e98e44655f7ceb7c2e738cd219"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "ds_airQualityData_json",
+											"type": "DatasetReference",
+											"parameters": {
+												"city": {
+													"value": "@item()",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "AQ data processing",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "extract api data",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/ibrahimi-badr@hotmail.com/Air quality data processing"
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_AzureDatabricks",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "CopyToSQL",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Get File list",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_processed_airQuality_csv",
+								"type": "DatasetReference",
+								"parameters": {
+									"FileName": "@activity('Get File list').output.childItems[3].name"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "airQualityTable_sql",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Get File list",
+						"type": "GetMetadata",
+						"dependsOn": [
+							{
+								"activity": "AQ data processing",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "get_AQ_metadata",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"cities": {
+						"type": "Array",
+						"defaultValue": [
+							"Toronto",
+							"Vancouver",
+							"Montreal",
+							"Ottawa",
+							"Calgary",
+							"Edmonton",
+							"Quebec City",
+							"Halifax",
+							"Winnipeg",
+							"Victoria",
+							"Seattle",
+							"New York",
+							"Los Angeles",
+							"Chicago",
+							"San Francisco",
+							"Miami",
+							"Las Vegas",
+							"Boston",
+							"London",
+							"Paris",
+							"Berlin",
+							"Madrid",
+							"Rome",
+							"Amsterdam",
+							"Vienna",
+							"Prague",
+							"Dublin",
+							"Barcelona",
+							"Stockholm",
+							"Copenhagen"
+						]
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-07-13T21:13:10Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/copyToSQL_sourceAndLocation')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy location data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_location_csv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "locationTable_sql",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy pollutionSources data",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Copy location data",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_pollutionSources_csv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "pollutionSourcesTable_sql",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "toSQL"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-07-27T21:21:24Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/pollutionSourcesTable_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/weather_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "extract api data",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@variables('cities')",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy api data",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "RestSource",
+											"httpRequestTimeout": "00:01:40",
+											"requestInterval": "00.00:00:00.010",
+											"requestMethod": "GET",
+											"paginationRules": {
+												"supportRFC5988": "true"
+											}
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "ds_weatherAPI",
+											"type": "DatasetReference",
+											"parameters": {
+												"location": {
+													"value": "@{item()}",
+													"type": "Expression"
+												},
+												"date": {
+													"value": "@concat('/',formatDateTime(utcnow(), 'yyyy-MM-dd'), '/', formatDateTime(utcnow(), 'yyyy-MM-dd'))",
+													"type": "Expression"
+												},
+												"apiKey": "?unitGroup=metric&key=W6EB6VYPKBKX3KKJ2HZF94K2V&contentType=json"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "ds_weatherData_json",
+											"type": "DatasetReference",
+											"parameters": {
+												"city": {
+													"value": "@{item()}",
+													"type": "Expression"
+												},
+												"file_type": ".json"
+											}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "weather processing",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "extract api data",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/ibrahimi-badr@hotmail.com/weather data processing"
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_AzureDatabricks",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Get files list",
+						"type": "GetMetadata",
+						"dependsOn": [
+							{
+								"activity": "weather processing",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "get_weather_metadata",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					},
+					{
+						"name": "Copy to sql",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Get files list",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_processed_weather_data",
+								"type": "DatasetReference",
+								"parameters": {
+									"FileName": {
+										"value": "@activity('Get files list').output.childItems[3].name",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "weatherTable_sql",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"cities": {
+						"type": "Array",
+						"defaultValue": [
+							"Toronto",
+							"Vancouver",
+							"Montreal",
+							"Ottawa",
+							"Calgary",
+							"Edmonton",
+							"Quebec City",
+							"Halifax",
+							"Winnipeg",
+							"Victoria",
+							"Seattle",
+							"New York",
+							"Los Angeles",
+							"Chicago",
+							"San Francisco",
+							"Miami",
+							"Las Vegas",
+							"Boston",
+							"London",
+							"Paris",
+							"Berlin",
+							"Madrid",
+							"Rome",
+							"Amsterdam",
+							"Vienna",
+							"Prague",
+							"Dublin",
+							"Barcelona",
+							"Stockholm",
+							"Copenhagen"
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/weatherTable_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/weather_daily_trigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "weather_pipeline",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2023-07-29T21:00:00",
+						"timeZone": "Eastern Standard Time",
+						"schedule": {}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/weather_pipeline')]"
+			]
+		}
+	]
+}

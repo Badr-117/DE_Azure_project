@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "deProject2adf"
+		},
+		"ds_json_data_connectionString": {
+			"value": ""
+		},
+		"ls_AzureDatabricks_accessToken": {
+			"value": ""
+		},
+		"ls_SQL_database_connectionString": {
+			"value": ""
+		},
+		"ls_adls_gen2_accountKey": {
+			"value": ""
+		},
+		"airQualityAPI_properties_typeProperties_url": {
+			"value": "https://api.waqi.info/feed"
+		},
+		"ls_AzureDatabricks_properties_typeProperties_existingClusterId": {
+			"value": "0718-165625-525807nn"
+		},
+		"ls_adls_gen2_properties_typeProperties_url": {
+			"value": "https://deprojectsagen2.dfs.core.windows.net/"
+		},
+		"weatherAPI_properties_typeProperties_url": {
+			"value": "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"
+		}
+	}
+}

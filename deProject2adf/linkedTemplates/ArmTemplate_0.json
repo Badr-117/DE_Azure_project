@@ -1,0 +1,1233 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "deProject2adf"
+		},
+		"ds_json_data_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ds_json_data'"
+		},
+		"ls_AzureDatabricks_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'ls_AzureDatabricks'"
+		},
+		"ls_SQL_database_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_SQL_database'"
+		},
+		"ls_adls_gen2_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_adls_gen2'"
+		},
+		"airQualityAPI_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://api.waqi.info/feed"
+		},
+		"ls_AzureDatabricks_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0718-165625-525807nn"
+		},
+		"ls_adls_gen2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://deprojectsagen2.dfs.core.windows.net/"
+		},
+		"weatherAPI_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/airQualityAPI')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('airQualityAPI_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_json_data')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('ds_json_data_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_AzureDatabricks')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-4922324468099218.18.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('ls_AzureDatabricks_accessToken')]"
+					},
+					"existingClusterId": "[parameters('ls_AzureDatabricks_properties_typeProperties_existingClusterId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_SQL_database')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('ls_SQL_database_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_adls_gen2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ls_adls_gen2_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('ls_adls_gen2_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/weatherAPI')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('weatherAPI_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/airQualityTable_sql')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_SQL_database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "SQL_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "idx",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "name",
+						"type": "varchar"
+					},
+					{
+						"name": "url",
+						"type": "varchar"
+					},
+					{
+						"name": "aqi",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "dominentpol",
+						"type": "varchar"
+					},
+					{
+						"name": "tz",
+						"type": "time",
+						"scale": 7
+					},
+					{
+						"name": "id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "co",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "dew",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "h",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "no2",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "o3",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "p",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "pm10",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "nopm252",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "so2",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "t",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "w",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "wg",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "airQuality"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_SQL_database')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_airQualityData_json')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ds_json_data",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"city": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "json"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@concat('AQ_', dataset().city, '.json')",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@concat('AirQuality', '/', formatDateTime(utcnow(), 'yyyy_MM_dd'))",
+							"type": "Expression"
+						},
+						"container": "data"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ds_json_data')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_airQuality_api_data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "airQualityAPI",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"URL_path": {
+						"type": "string"
+					},
+					"token": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "api"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {
+					"relativeUrl": {
+						"value": "@concat(dataset().URL_path, dataset().token)",
+						"type": "Expression"
+					}
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/airQualityAPI')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_location_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls_gen2",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "processed_csv"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "location_data.csv",
+						"folderPath": "location",
+						"fileSystem": "data"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "{\\rtf1\\ansi\\ansicpg1252\\cocoartf2638",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls_gen2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_pollutionSources_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls_gen2",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "processed_csv"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "pollutionSources_data.csv",
+						"folderPath": "pollutionSources",
+						"fileSystem": "data"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "source_name",
+						"type": "String"
+					},
+					{
+						"name": "source_type",
+						"type": "String"
+					},
+					{
+						"name": "emission_type",
+						"type": "String"
+					},
+					{
+						"name": "location",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls_gen2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_processed_airQuality_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls_gen2",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FileName": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "processed_csv"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().FileName",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@concat('AirQuality/', formatDateTime(utcnow(), 'yyyy_MM_dd'))",
+							"type": "Expression"
+						},
+						"fileSystem": "data"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "idx",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "url",
+						"type": "String"
+					},
+					{
+						"name": "aqi",
+						"type": "String"
+					},
+					{
+						"name": "dominentpol",
+						"type": "String"
+					},
+					{
+						"name": "s",
+						"type": "String"
+					},
+					{
+						"name": "tz",
+						"type": "String"
+					},
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "co",
+						"type": "String"
+					},
+					{
+						"name": "dew",
+						"type": "String"
+					},
+					{
+						"name": "h",
+						"type": "String"
+					},
+					{
+						"name": "no2",
+						"type": "String"
+					},
+					{
+						"name": "o3",
+						"type": "String"
+					},
+					{
+						"name": "p",
+						"type": "String"
+					},
+					{
+						"name": "pm10",
+						"type": "String"
+					},
+					{
+						"name": "pm25",
+						"type": "String"
+					},
+					{
+						"name": "so2",
+						"type": "String"
+					},
+					{
+						"name": "t",
+						"type": "String"
+					},
+					{
+						"name": "w",
+						"type": "String"
+					},
+					{
+						"name": "wg",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls_gen2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_processed_weather_data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls_gen2",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FileName": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "processed_csv"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().FileName",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@concat('weather/', formatDateTime(utcnow(), 'yyyy_MM_dd'))",
+							"type": "Expression"
+						},
+						"fileSystem": "data"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "latitude",
+						"type": "String"
+					},
+					{
+						"name": "longitude",
+						"type": "String"
+					},
+					{
+						"name": "resolvedAddress",
+						"type": "String"
+					},
+					{
+						"name": "address",
+						"type": "String"
+					},
+					{
+						"name": "timezone",
+						"type": "String"
+					},
+					{
+						"name": "cloudcover",
+						"type": "String"
+					},
+					{
+						"name": "conditions",
+						"type": "String"
+					},
+					{
+						"name": "datetime",
+						"type": "String"
+					},
+					{
+						"name": "datetimeEpoch",
+						"type": "String"
+					},
+					{
+						"name": "description",
+						"type": "String"
+					},
+					{
+						"name": "dew",
+						"type": "String"
+					},
+					{
+						"name": "feelslike",
+						"type": "String"
+					},
+					{
+						"name": "feelslikemax",
+						"type": "String"
+					},
+					{
+						"name": "feelslikemin",
+						"type": "String"
+					},
+					{
+						"name": "humidity",
+						"type": "String"
+					},
+					{
+						"name": "icon",
+						"type": "String"
+					},
+					{
+						"name": "moonphase",
+						"type": "String"
+					},
+					{
+						"name": "precip",
+						"type": "String"
+					},
+					{
+						"name": "precipcover",
+						"type": "String"
+					},
+					{
+						"name": "precipprob",
+						"type": "String"
+					},
+					{
+						"name": "pressure",
+						"type": "String"
+					},
+					{
+						"name": "severerisk",
+						"type": "String"
+					},
+					{
+						"name": "snow",
+						"type": "String"
+					},
+					{
+						"name": "snowdepth",
+						"type": "String"
+					},
+					{
+						"name": "solarenergy",
+						"type": "String"
+					},
+					{
+						"name": "solarradiation",
+						"type": "String"
+					},
+					{
+						"name": "source",
+						"type": "String"
+					},
+					{
+						"name": "sunrise",
+						"type": "String"
+					},
+					{
+						"name": "sunriseEpoch",
+						"type": "String"
+					},
+					{
+						"name": "sunset",
+						"type": "String"
+					},
+					{
+						"name": "sunsetEpoch",
+						"type": "String"
+					},
+					{
+						"name": "temp",
+						"type": "String"
+					},
+					{
+						"name": "tempmax",
+						"type": "String"
+					},
+					{
+						"name": "tempmin",
+						"type": "String"
+					},
+					{
+						"name": "uvindex",
+						"type": "String"
+					},
+					{
+						"name": "visibility",
+						"type": "String"
+					},
+					{
+						"name": "winddir",
+						"type": "String"
+					},
+					{
+						"name": "windgust",
+						"type": "String"
+					},
+					{
+						"name": "windspeed",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls_gen2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_processes_weather_data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls_gen2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "weather/raw",
+						"fileSystem": "data"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls_gen2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_weatherAPI')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "weatherAPI",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"location": {
+						"type": "string"
+					},
+					"date": {
+						"type": "string"
+					},
+					"apiKey": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "api"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {
+					"relativeUrl": {
+						"value": "@concat(dataset().location,dataset().date,dataset().apiKey)",
+						"type": "Expression"
+					}
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/weatherAPI')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_weatherData_json')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ds_json_data",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"city": {
+						"type": "string"
+					},
+					"file_type": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "json"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@concat(dataset().city, dataset().file_type)",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@concat('weather_data', '/', formatDateTime(utcnow(), 'yyyy_MM_dd'))",
+							"type": "Expression"
+						},
+						"container": "data"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ds_json_data')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_weather_merged_data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls_gen2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "weather/raw",
+						"fileSystem": "data"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "address",
+						"type": "String"
+					},
+					{
+						"name": "description",
+						"type": "String"
+					},
+					{
+						"name": "latitude",
+						"type": "String"
+					},
+					{
+						"name": "longitude",
+						"type": "String"
+					},
+					{
+						"name": "resolvedAddress",
+						"type": "String"
+					},
+					{
+						"name": "stations",
+						"type": "String"
+					},
+					{
+						"name": "timezone",
+						"type": "String"
+					},
+					{
+						"name": "tzoffset",
+						"type": "String"
+					},
+					{
+						"name": "datetime",
+						"type": "String"
+					},
+					{
+						"name": "datetimeEpoch",
+						"type": "String"
+					},
+					{
+						"name": "tempmax",
+						"type": "String"
+					},
+					{
+						"name": "tempmin",
+						"type": "String"
+					},
+					{
+						"name": "temp",
+						"type": "String"
+					},
+					{
+						"name": "feelslikemax",
+						"type": "String"
+					},
+					{
+						"name": "feelslikemin",
+						"type": "String"
+					},
+					{
+						"name": "feelslike",
+						"type": "String"
+					},
+					{
+						"name": "humidity",
+						"type": "String"
+					},
+					{
+						"name": "dew",
+						"type": "String"
+					},
+					{
+						"name": "precip",
+						"type": "String"
+					},
+					{
+						"name": "precipprob",
+						"type": "String"
+					},
+					{
+						"name": "snow",
+						"type": "String"
+					},
+					{
+						"name": "snowdepth",
+						"type": "String"
+					},
+					{
+						"name": "preciptype",
+						"type": "String"
+					},
+					{
+						"name": "precipcover",
+						"type": "String"
+					},
+					{
+						"name": "windgust",
+						"type": "String"
+					},
+					{
+						"name": "windspeed",
+						"type": "String"
+					},
+					{
+						"name": "winddir",
+						"type": "String"
+					},
+					{
+						"name": "pressure",
+						"type": "String"
+					},
+					{
+						"name": "visibility",
+						"type": "String"
+					},
+					{
+						"name": "cloudcover",
+						"type": "String"
+					},
+					{
+						"name": "solarradiation",
+						"type": "String"
+					},
+					{
+						"name": "solarenergy",
+						"type": "String"
+					},
+					{
+						"name": "uvindex",
+						"type": "String"
+					},
+					{
+						"name": "conditions",
+						"type": "String"
+					},
+					{
+						"name": "icon",
+						"type": "String"
+					},
+					{
+						"name": "source",
+						"type": "String"
+					},
+					{
+						"name": "sunrise",
+						"type": "String"
+					},
+					{
+						"name": "sunriseEpoch",
+						"type": "String"
+					},
+					{
+						"name": "sunset",
+						"type": "String"
+					},
+					{
+						"name": "sunsetEpoch",
+						"type": "String"
+					},
+					{
+						"name": "moonphase",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls_gen2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/get_AQ_metadata')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls_gen2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": {
+							"value": "@concat('AirQuality/', formatDateTime(utcnow(), 'yyyy_MM_dd'))",
+							"type": "Expression"
+						},
+						"fileSystem": "data"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "idx",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "url",
+						"type": "String"
+					},
+					{
+						"name": "aqi",
+						"type": "String"
+					},
+					{
+						"name": "dominentpol",
+						"type": "String"
+					},
+					{
+						"name": "s",
+						"type": "String"
+					},
+					{
+						"name": "tz",
+						"type": "String"
+					},
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "co",
+						"type": "String"
+					},
+					{
+						"name": "dew",
+						"type": "String"
+					},
+					{
+						"name": "h",
+						"type": "String"
+					},
+					{
+						"name": "no2",
+						"type": "String"
+					},
+					{
+						"name": "o3",
+						"type": "String"
+					},
+					{
+						"name": "p",
+						"type": "String"
+					},
+					{
+						"name": "pm10",
+						"type": "String"
+					},
+					{
+						"name": "pm25",
+						"type": "String"
+					},
+					{
+						"name": "so2",
+						"type": "String"
+					},
+					{
+						"name": "t",
+						"type": "String"
+					},
+					{
+						"name": "w",
+						"type": "String"
+					},
+					{
+						"name": "wg",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls_gen2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/get_weather_metadata')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls_gen2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": {
+							"value": "@concat('weather/', formatDateTime(utcnow(), 'yyyy_MM_dd'))",
+							"type": "Expression"
+						},
+						"fileSystem": "data"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls_gen2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/locationTable_sql')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_SQL_database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "SQL_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "City",
+						"type": "varchar"
+					},
+					{
+						"name": "State",
+						"type": "varchar"
+					},
+					{
+						"name": "Country",
+						"type": "varchar"
+					},
+					{
+						"name": "Zip Code",
+						"type": "varchar"
+					},
+					{
+						"name": "Latitude",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Longitude",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "location"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_SQL_database')]"
+			]
+		}
+	]
+}
