@@ -10,7 +10,7 @@ This project was mainly focused on using the different data tools that Azure pro
 
 **Project Architecture:**
 
-![](Aspose.Words.ca54e59c-b0fc-4635-a010-001453464c24.001.png)
+![project_architecture](https://github.com/Badr-117/DE_Azure_project/blob/main/project_architecture.png)
 
 
 **Project Steps**
