@@ -1,0 +1,66 @@
+from datetime import date
+from pyspark.sql.functions import explode
+
+
+#blob storage connection
+storage_account_name = "deproject2sa"
+storage_account_key = "xxxxx"
+container = "data"
+
+spark.conf.set(f"fs.azure.account.key.{storage_account_name}.blob.core.windows.net", storage_account_key)
+
+
+#ADLS gen2 storage connection
+'''client_id               = "xxxxx"
+tenant_id               = "xxxxx"
+client_secret           = "xxxxx"
+storage_account_name    = "deprojectsagen2"
+
+
+configs = {"fs.azure.account.auth.type": "OAuth",
+           "fs.azure.account.oauth.provider.type": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",
+           "fs.azure.account.oauth2.client.id": f"{client_id}",
+           "fs.azure.account.oauth2.client.secret": f"{client_secret}",
+           "fs.azure.account.oauth2.client.endpoint": f"https://login.microsoftonline.com/{tenant_id}/oauth2/token"}
+
+
+dbutils.fs.updateMount(
+  source = f"abfss://data@{storage_account_name}.dfs.core.windows.net/",
+  mount_point = f"/mnt/{storage_account_name}/data",
+  extra_configs = configs)'''
+
+
+# Get the current date
+current_date = date.today().strftime("%Y_%m_%d")
+
+folder_path = f"wasbs://data@deproject2sa.blob.core.windows.net/weather_data/{current_date}"
+# Read JSON files into DataFrames
+dfs = []
+for file in dbutils.fs.ls(folder_path):
+    if file.name.endswith(".json"):
+        df = spark.read.json(file.path)
+        dfs.append(df)
+
+
+processed_dfs = []
+for df in dfs:
+    # Apply your data processing transformations
+
+    #trying to extract desired columns from nested array "days"
+    explode_df = df.select(explode("days").alias("day"))
+
+    #drop dosen't work I can't get why. used select instead
+    explode_df = explode_df.select("day.cloudcover", "day.conditions", "day.datetime", "day.datetimeEpoch", "day.description", "day.dew", "day.feelslike", "day.feelslikemax", "day.feelslikemin", "day.humidity", "day.icon", "day.moonphase", "day.precip", "day.precipcover", "day.precipprob", "day.pressure", "day.severerisk", "day.snow", "day.snowdepth", "day.solarenergy", "day.solarradiation", "day.source", "day.sunrise", "day.sunriseEpoch", "day.sunset", "day.sunsetEpoch", "day.temp", "day.tempmax", "day.tempmin", "day.uvindex", "day.visibility", "day.winddir", "day.windgust", "day.windspeed")
+
+    part1_df = explode_df
+    part2_df = df.select("latitude", "longitude", "resolvedAddress", "address", "timezone")
+    processed_df = part2_df.crossJoin(part1_df)
+    processed_dfs.append(processed_df)
+
+
+merged_df = processed_dfs[0]  # Take the first DataFrame
+for df in processed_dfs[1:]:
+    merged_df = merged_df.union(df)
+
+output_path = f"/mnt/deprojectsagen2/data/weather/{current_date}"
+merged_df.coalesce(1).write.csv(output_path, header=True, mode="overwrite")
