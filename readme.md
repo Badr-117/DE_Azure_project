@@ -15,7 +15,7 @@ This project was mainly focused on using the different data tools that Azure pro
 
 **Project Steps**
 
-***Part 1: Data Extraction and Preparation***
+***Data Extraction and Preparation***
 
 - Identified the environmental domain and the problem to be solved: constructing a data warehouse for air quality data.
 - Extracted data from Amber API, including Air Quality, Weather, Forest Fire, and Pollen data.
@@ -25,7 +25,7 @@ This project was mainly focused on using the different data tools that Azure pro
 - Employed the "For Each" activity in Azure Data Factory to extract air quality and weather data for each city during the current date.
 - Stored the extracted data into Blob storage.
 
-***Part 2: Data Processing with Azure Databricks***
+***Data Processing with Azure Databricks***
 
 - Utilized Azure Databricks for data processing tasks.
 - Extracted desired columns from weather JSON data stored in Blob storage and merged results into a single CSV file.
@@ -35,7 +35,7 @@ This project was mainly focused on using the different data tools that Azure pro
 - Appended processed data into a list for later merging.
 - Saved the resulting output files into ADLS gen2 storage.
 
-***Part 3: Data Warehouse Construction and Enrichment***
+***Data Warehouse Construction and Enrichment***
 
 - Established an Azure SQL Database to serve as the core data warehouse.
 - Designed and built SQL tables to accommodate processed air quality and weather data from ADLS gen2.
@@ -44,7 +44,7 @@ This project was mainly focused on using the different data tools that Azure pro
 - Uploaded pollution sources and location data directly into ADLS gen2.
 - Constructed location and pollution source tables and inserted corresponding data.
 
-***Part 4: Pipeline Deployment and Optimization***
+***Pipeline Deployment and Optimization***
 
 - Ensured the functionality of the pipelines to retrieve, process, and insert data into SQL tables daily.
 - Modified sink during API data extraction to store new data in subfolders by current date.
