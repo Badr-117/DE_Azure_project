@@ -23,11 +23,428 @@
 							"enablePartitionDiscovery": false
 						}
 					},
-					"enableStaging": false
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Project definition",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "project definition",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "WBS element",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "WBS element",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "RAKEY",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "RAKEY",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "G&A",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "G&A",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Company Code",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Company Code",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Cost Element",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Cost Element",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Profit Center",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Profit Center",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Effective Date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Effective Date",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "Task Code",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Task Code",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Expenditure Type",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Expenditure Type",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "NL TYPE",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "NL TYPE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Purchasing Document",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Purchasing Document",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Transaction date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Transaction date",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "Personnel Number",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Personnel Number",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Employee name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Employee name",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Total quantity",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Totale quantity",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "Posted unit of meas.",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Posted unit of meas.",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Val/COArea Crcy",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Val/COArea Crcy",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "BWR",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "BWR",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "Raw cost",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "RAW cost",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "Total Cost",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Total Cost",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "Cost price for ODC",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Cost price for ODC",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "Cost price for ADC",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Cost price for ADC",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "Cost price for LDC",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Cost price for LDC",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "Name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Name",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Reference",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Reference",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Expense Number",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Expence Number",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Billable project (Y/N)",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Billable project",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Sender Cost Center",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Sender Cost Center",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Partner-CCtr",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "partener-CCtr",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Document Number",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Document Number",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Vendor",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Vendor",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Vendor name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Vendor name",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
 				},
 				"inputs": [
 					{
 						"referenceName": "cost_raw_excel",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "cost_raw_sql",
 						"type": "DatasetReference"
 					}
 				]

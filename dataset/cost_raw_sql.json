@@ -1,0 +1,167 @@
+{
+	"name": "cost_raw_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_SQL_database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "project_comptable"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "project definition",
+				"type": "varchar"
+			},
+			{
+				"name": "WBS element",
+				"type": "varchar"
+			},
+			{
+				"name": "RAKEY",
+				"type": "varchar"
+			},
+			{
+				"name": "G&A",
+				"type": "varchar"
+			},
+			{
+				"name": "Company Code",
+				"type": "varchar"
+			},
+			{
+				"name": "Cost Element",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Profit Center",
+				"type": "varchar"
+			},
+			{
+				"name": "Effective Date",
+				"type": "date"
+			},
+			{
+				"name": "Task Code",
+				"type": "varchar"
+			},
+			{
+				"name": "Expenditure Type",
+				"type": "varchar"
+			},
+			{
+				"name": "NL TYPE",
+				"type": "varchar"
+			},
+			{
+				"name": "Purchasing Document",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Transaction date",
+				"type": "date"
+			},
+			{
+				"name": "Personnel Number",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Employee name",
+				"type": "varchar"
+			},
+			{
+				"name": "Totale quantity",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Posted unit of meas.",
+				"type": "varchar"
+			},
+			{
+				"name": "Val/COArea Crcy",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "BWR",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "RAW cost",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Total Cost",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Cost price for ODC",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Cost price for ADC",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Cost price for LDC",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Name",
+				"type": "varchar"
+			},
+			{
+				"name": "Reference",
+				"type": "varchar"
+			},
+			{
+				"name": "Expence Number",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Billable project",
+				"type": "varchar"
+			},
+			{
+				"name": "Sender Cost Center",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "partener-CCtr",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Document Number",
+				"type": "varchar"
+			},
+			{
+				"name": "Vendor",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Vendor name",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "cost_raw"
+		}
+	}
+}
