@@ -1,0 +1,155 @@
+{
+	"name": "cost_raw_excel",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Raw",
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "cost_ADS__AMT_8_3_2022_3.XLSX",
+				"folderPath": "projet_comptable",
+				"fileSystem": "data"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Project definition",
+				"type": "String"
+			},
+			{
+				"name": "WBS element",
+				"type": "String"
+			},
+			{
+				"name": "RAKEY",
+				"type": "String"
+			},
+			{
+				"name": "G&A",
+				"type": "String"
+			},
+			{
+				"name": "Company Code",
+				"type": "String"
+			},
+			{
+				"name": "Cost Element",
+				"type": "String"
+			},
+			{
+				"name": "Profit Center",
+				"type": "String"
+			},
+			{
+				"name": "Effective Date",
+				"type": "String"
+			},
+			{
+				"name": "Task Code",
+				"type": "String"
+			},
+			{
+				"name": "Expenditure Type",
+				"type": "String"
+			},
+			{
+				"name": "NL TYPE",
+				"type": "String"
+			},
+			{
+				"name": "Purchasing Document",
+				"type": "String"
+			},
+			{
+				"name": "Transaction date",
+				"type": "String"
+			},
+			{
+				"name": "Personnel Number",
+				"type": "String"
+			},
+			{
+				"name": "Employee name",
+				"type": "String"
+			},
+			{
+				"name": "Total quantity",
+				"type": "String"
+			},
+			{
+				"name": "Posted unit of meas.",
+				"type": "String"
+			},
+			{
+				"name": "Val/COArea Crcy",
+				"type": "String"
+			},
+			{
+				"name": "BWR",
+				"type": "String"
+			},
+			{
+				"name": "Raw cost",
+				"type": "String"
+			},
+			{
+				"name": "Total Cost",
+				"type": "String"
+			},
+			{
+				"name": "Cost price for ODC",
+				"type": "String"
+			},
+			{
+				"name": "Cost price for ADC",
+				"type": "String"
+			},
+			{
+				"name": "Cost price for LDC",
+				"type": "String"
+			},
+			{
+				"name": "Name",
+				"type": "String"
+			},
+			{
+				"name": "Reference",
+				"type": "String"
+			},
+			{
+				"name": "Expense Number",
+				"type": "String"
+			},
+			{
+				"name": "Billable project (Y/N)",
+				"type": "String"
+			},
+			{
+				"name": "Sender Cost Center",
+				"type": "String"
+			},
+			{
+				"name": "Partner-CCtr",
+				"type": "String"
+			},
+			{
+				"name": "Document Number",
+				"type": "String"
+			},
+			{
+				"name": "Vendor",
+				"type": "String"
+			},
+			{
+				"name": "Vendor name",
+				"type": "String"
+			}
+		]
+	}
+}
