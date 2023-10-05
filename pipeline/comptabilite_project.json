@@ -100,8 +100,8 @@
 								},
 								"sink": {
 									"name": "Cost Element",
-									"type": "Int32",
-									"physicalType": "int"
+									"type": "String",
+									"physicalType": "varchar"
 								}
 							},
 							{
@@ -352,8 +352,8 @@
 								},
 								"sink": {
 									"name": "Expence Number",
-									"type": "Int32",
-									"physicalType": "int"
+									"type": "String",
+									"physicalType": "varchar"
 								}
 							},
 							{
@@ -412,8 +412,8 @@
 								},
 								"sink": {
 									"name": "Vendor",
-									"type": "Int32",
-									"physicalType": "int"
+									"type": "String",
+									"physicalType": "varchar"
 								}
 							},
 							{
