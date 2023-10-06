@@ -48,7 +48,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureSqlTable1",
+						"referenceName": "ra_postings_sql",
 						"type": "DatasetReference"
 					}
 				]

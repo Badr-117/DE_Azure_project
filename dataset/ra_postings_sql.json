@@ -1,9 +1,12 @@
 {
-	"name": "AzureSqlTable1",
+	"name": "ra_postings_sql",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_SQL_database",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "project_comptable"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
@@ -16,7 +19,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "ra_posting"
+			"table": "ra_postings"
 		}
 	}
 }
