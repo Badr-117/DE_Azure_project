@@ -1,0 +1,78 @@
+{
+	"name": "ra_posting_july_excel",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "project_comptable"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "RA postings",
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "RA_postings_July_22_vv_2.xlsx",
+				"folderPath": "projet_comptable",
+				"fileSystem": "data"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Company Code",
+				"type": "String"
+			},
+			{
+				"name": "Fiscal Year",
+				"type": "String"
+			},
+			{
+				"name": "Posting period",
+				"type": "String"
+			},
+			{
+				"name": "G/L Account",
+				"type": "String"
+			},
+			{
+				"name": "Processed Database Rows",
+				"type": "String"
+			},
+			{
+				"name": "Document Currency Value",
+				"type": "String"
+			},
+			{
+				"name": "Document Currency Key",
+				"type": "String"
+			},
+			{
+				"name": "WBS Element",
+				"type": "String"
+			},
+			{
+				"name": "project def",
+				"type": "String"
+			},
+			{
+				"name": "Document Number",
+				"type": "String"
+			},
+			{
+				"name": "Text",
+				"type": "String"
+			},
+			{
+				"name": "BU",
+				"type": "String"
+			},
+			{
+				"name": "Profit Center",
+				"type": "String"
+			}
+		]
+	}
+}
